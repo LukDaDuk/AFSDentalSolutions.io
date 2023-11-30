@@ -1,0 +1,11 @@
+<!-- result.html -->
+{% extends "base.html" %}
+{% block content %}
+    <h1 data-i18n="teeth_analysis_result">Teeth Analysis Result</h1>
+    <p data-i18n="{{ result_key }}">{{ result_message }}</p>
+    <div id="result">
+        <img src="{{ url_for('static', filename=processed_image) }}" alt="Processed Image">
+        <img src="{{ url_for('static', filename=saturation_graph) }}" alt="Saturation Graph">
+    </div>
+    <a href="/" class="button" data-i18n="again">Try Again</a>
+{% endblock %}

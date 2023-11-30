@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AFS Dental Solutions</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/22.4.4/i18next.min.js"></script>
+</head>
+<body>
+    <div class="zigzag-border"></div>
+    <header>
+        <img src="{{ url_for('static', filename='AFSDentalSolutions.png') }}" alt="AFS Dental Solutions Logo" id="logo">
+        
+        <!-- Language switcher dropdown -->
+        <select id="languageSwitcher" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="ev">Tiếng Việt</option>
+        </select>
+
+        <nav id="nav-bar">
+            <ul>
+                <li><a href="#about" class="custom-button" data-i18n="about">About Us</a></li>
+                <li><a href="https://gpdsmile.com/" target="_blank" class="custom-button" data-i18n="partner">Our Partner</a></li>
+                <li><a href="#goal" class="custom-button" data-i18n="goal">Our Goal</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    {% block content %}
+    <!-- The content from child templates will go here -->
+    {% endblock %}
+    
+    <script>
+        // Initialize i18next
+        i18next.init({
+            lng: 'en', // Default language
+            resources: {
+                en: {
+                    translation: {
+                        "about": "About Us",
+                        "partner": "Our Partner",
+                        "goal": "Our Goal",
+                        "upload_analyze": "Upload & Analyze",
+                        "teeth_analysis_result": "Teeth Analysis Result",
+                        "condition1": "Your teeth are in good condition.",
+                        "condition2": "Uh oh! Go to the dentist immediately.",
+                        "condition3": "Your teeth are in an intermediate state. Consider a dental check-up.",
+                        "again": "Try Again"
+                    }
+                },
+                es: {
+                    translation: {
+                        "about": "Sobre Nosotros",
+                        "partner": "Nuestro Socio",
+                        "goal": "Nuestro Objetivo",
+                        "upload_analyze": "Cargar y Analizar",
+                        "teeth_analysis_result": "Resultado de Análisis de Dientes",
+                        "condition1": "Tus dientes están en buenas condiciones.",
+                        "condition2": "¡Los dientes están mal! Ve al dentista inmediatamente.",
+                        "condition3": "Tus dientes están en un estado intermedio. Considera una revisión dental.",
+                        "again": "Otra Vez"
+                    }
+                },
+                ev: {
+                    translation: {
+                        "about": "Về Chúng Tôi",
+                        "partner": "Cộng Sự",
+                        "goal": "Mục Tiêu",
+                        "upload_analyze": "Tải Lên và Phân Tích",
+                        "teeth_analysis_result": "Kết Quả Phân Tích Răng",
+                        "condition1": "Răng của bạn đang trong tình trạng tốt.",
+                        "condition2": "Răng xấu! Gặp nha sĩ ngay lập tức.",
+                        "condition3": "Răng của bạn thuộc loại trung cấp. Gặp nha sĩ sớm.",
+                        "again": "Thử Lại"
+                    }
+                }
+                // Add more languages here
+            }
+        }, function(err, t) {
+            // Initialize the translations for the default language
+            changeLanguage('en');
+        });
+
+        function changeLanguage(language) {
+            i18next.changeLanguage(language, () => {
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    element.textContent = i18next.t(key);
+                });
+            });
+        }
+
+        // Set the language switcher's value to the default language
+        document.getElementById('languageSwitcher').value = 'en';
+    </script>
+
+<svg> <svg>
+<h1> Disclaimer: We do not store your information (including pictures or data). <h1>
+</body>
+</html>

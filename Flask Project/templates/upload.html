@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 data-i18n="teeth_analysis">Teeth Analysis</h1>
+    <button id="openCamera" class="custom-button" data-i18n="open_camera">Open Camera</button>
+    <video id="video" width="640" height="480" autoplay style="display:none;"></video>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+    <div class="camera-border" style="display:none;"></div> <!-- Camera border -->
+
+    <form id="camera-form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="imageData" id="imageData">
+        <button id="capture" class="custom-button" data-i18n="capture" style="display:none;">Capture</button>
+        <button id="uploadAnalyze" class="custom-button" data-i18n="upload_analyze" style="display:none;">Upload & Analyze</button>
+    </form>
+    
+    <div id="loader" class="loader"></div>
+    
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('capture');
+        const openCameraButton = document.getElementById('openCamera');
+        const uploadAnalyzeButton = document.getElementById('uploadAnalyze');
+        const imageDataInput = document.getElementById('imageData');
+
+        openCameraButton.onclick = function() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                    captureButton.style.display = 'block';
+                    openCameraButton.style.display = 'none';
+                })
+                .catch(function(err) {
+                    console.error("Error accessing camera:", err);
+                });
+        };
+
+        captureButton.onclick = function() {
+            canvas.getContext('2d').drawImage(video, 0, 0, 640, 480);
+            imageDataInput.value = canvas.toDataURL('image/jpeg');
+            video.style.display = 'none';
+            captureButton.style.display = 'none';
+            uploadAnalyzeButton.style.display = 'block';
+        };
+
+        uploadAnalyzeButton.onclick = function() {
+            document.getElementById('loader').style.display = 'block';
+            setTimeout(function() {
+                document.getElementById('camera-form').submit();
+            }, 5000);
+        };
+    captureButton.onclick = function() {
+        canvas.getContext('2d').drawImage(video, 0, 0, 640, 480);
+        imageDataInput.value = canvas.toDataURL('image/jpeg'); // Convert to base64
+        video.style.display = 'none';
+        captureButton.style.display = 'none';
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('upload-form').submit();  // Submit the form
+    };
+    </script>
+{% endblock %}
